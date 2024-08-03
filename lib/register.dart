@@ -1,9 +1,56 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:login_page/home.dart';
 import 'package:login_page/login.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+   RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController= TextEditingController();
+
+  TextEditingController passwordConfirmController = TextEditingController();
+
+  Future register() async {
+    final auth = FirebaseAuth.instance;
+
+    try {
+      if (passwordController.text == passwordConfirmController.text) {
+      await auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())),
+      });
+    } else {
+      return 
+      Fluttertoast.showToast(
+          msg: "Passwords do not match",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +119,7 @@ class RegisterPage extends StatelessWidget {
                       height: 40,
                     ),
                     TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -86,6 +134,7 @@ class RegisterPage extends StatelessWidget {
                       height: 10,
                     ),
                     TextField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -101,6 +150,7 @@ class RegisterPage extends StatelessWidget {
                       height: 20,
                     ),
                     TextField(
+                      controller: passwordConfirmController,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -136,11 +186,16 @@ class RegisterPage extends StatelessWidget {
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(
-                        "REGISTER",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          register();
+                        },
+                        child: Text(
+                          "REGISTER",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
