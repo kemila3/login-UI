@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:login_page/register.dart';
+import 'package:login_page/login.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                       padding: EdgeInsets.all(50),
                     ),
                     Text(
-                      "Login",
+                      "Register",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 40,
@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "Welcome to the Login Page",
+                      "Welcome to the Register Page",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -100,6 +100,18 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        prefixIcon: Icon(Icons.email_outlined),
+                        hintText: "Confirm your password",
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -125,7 +137,7 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        "LOGIN",
+                        "REGISTER",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -137,17 +149,17 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account?",
+                          "Already have an account?",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                          onTap: () {                  
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                           },
                           child: Text(
-                            "Register Now",
+                            "Login Now",
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
